@@ -1,3 +1,3 @@
-import { ArtemisWidget } from "./widget";
+import { ArtemisWidget } from './widget';
 
 new ArtemisWidget();
