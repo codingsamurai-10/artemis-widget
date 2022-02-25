@@ -7,35 +7,21 @@ export class ArtemisWidget {
     this.createToggleChatButton();
   }
 
-  getFormData() {
-    this.data = {
-      questions: [
-        {
-          type: "text",
-          src:
-            "https://media.videoask.com/transcoded/2968e222-0105-4cf2-b81b-982a96cd3da8/video.mp4?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJtZWRpYV9pZCI6IjI5NjhlMjIyLTAxMDUtNGNmMi1iODFiLTk4MmE5NmNkM2RhOCIsImV4cCI6MTY0NjA5MTExNX0.0prOPRAJmQCP_rlQ-AiOcEzRCkgrnVucwxZs4ehGaEyuPBEHvVJywLp9DEK9l80dvrAlpxeciUBUO5vOVxuaTDESlT-8i9aYUc96sCy5SIKWFpzdd6E4B-eM1N9XWih0783mXolMiOq3FtEd_ub_RJFrVZLogQgOilWUm2o7zJAAZVq36uATNAkq0nbyUBrFFGa1NBu2TrhhP8CYw76jeJYbv_FIfrNnSFeTv6onxhxHlQPg_rn7nEGIgTVI97_QS0FEKSSyLn8vp3s3JNYCarTdVIZFL_txaDMm_tyZByxnDsSWFKJGWC48dMlKg3FNCRJnGwgFoF4NnSd7T9Qr-xWfRMkc1ZspppqEQiq-Vd1ZdyzA6zC4yJoJBwKY6h4yMsz2QIycF5E0aQ7txWnJKgEftG_GVc6n9mG93ECxr0jkpsrGCAPOfjVoGhgvDyHTFjJc8rJDXrgDaYxj0YmlG2ua5AZme4MoeEELw10PRDXmMj9sFyoUU4QoCxQYdL7Q9Qn1YGc763yc44HAY8GSB0mJ3OVTWue8VfVxn48uM2lDp1BQ6k2xtCJOREGCU1oE7YQ16uWB3CPHCkGVXgxtKu3BKjc-gPWJRw0jTkdAqSbtfULHTJC7OxbC5YjFA_Y-EDt71RW9WXByZ5f35eMPN1SJsHQLQORdcsAThWA685Q",
-          caption: "What is your motivation for joining us?",
-          label: "Motivation"
-        },
-        {
-          type: "radio",
-          src:
-            "https://media.videoask.com/transcoded/3d6dcbc3-2651-402f-bb22-e236624e131e/video.mp4?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJtZWRpYV9pZCI6IjNkNmRjYmMzLTI2NTEtNDAyZi1iYjIyLWUyMzY2MjRlMTMxZSIsImV4cCI6MTY0NjA5MTExNX0.wYJGKv8J2JYKxO4k20dA3NMkmbAJvdwzsovhNjAq-hI0wdhADIe_uRmj2C_8bAMrEtryMtL7L5wIsI3pZmML1Zq4QXv1fn6JB0aXGUM5B7psCHwyk17U2n90hODUNhesFileU40CZUVzrWp6Ob0Dp1HFwgyjMB3T_f4_gNm8n2pEoZSsHrt5M4JFzMO5118-lVUthRC5CWl5FMBEJYpjSt-GL3FOGRt4xs3FkCIieejU0wWsmplVJ_5X0wFm3NARvKer0XOBnaQmAkTb0veo1edJz4l6dQTxAs0FT4xiFxUOeHcfVR2Q4T1LYNjoExinL9jFc_1lvuh6wNOQdFcw79vYEEnDE_78A3w7sr6T4Smh9oU7z6swdMgKATIOXHaWgWzgIDuwmUYuMGHlYIAlx9hvav5O05RZtEJS4HO2R21nnT-wbulcN-daaSpVjUlsP4HZZm-voZwwScqyYgv2DO83OgHfPn3mvs2ZoVQQnKhr_pWiRyGmuMmW9xtyAoF4vYl-v4DtBwgvvCMavfLm8k_UV7m03Qb9nl4esZzFlSgYBxQiXZP3swQHgaObvasqAJ2KYI49FFEAIapwMG4xjz-l7Lld1IrJAabmFYT6rzWI3XILtZqGnu1dfEx98VyhCVekL03P3LXkEbQHShB6BNz8UE-sWXjwAR889s7rvo0",
-          caption: "What makes you think you'll be a good fit for us?",
-          label: "GoodFit",
-          options: ["I'm smart", "I'm not smart"]
-        }
-      ]
-    };
+  async getFormData() {
+    const response = await fetch(
+      "http://localhost:3000/api/widget/62176db319ede44b9682f105"
+    );
+    const json = await response.json();
+    return json;
   }
 
-  handleToggleChatButtonClick() {
+  async handleToggleChatButtonClick() {
     this.isFormOpen = !this.isFormOpen;
     this.toggleChatButton.remove();
     this.createToggleChatButton();
 
     if (this.isFormOpen) {
-      this.getFormData();
+      this.data = await this.getFormData();
       this.createFormElement();
     } else {
       this.formContainer.remove();
@@ -166,9 +152,21 @@ export class ArtemisWidget {
     this.formContainer.appendChild(thankYouParagraph);
   }
 
-  submitForm(event) {
+  async submitForm(event) {
     event.preventDefault();
-    console.log(this.formState);
+    const response = await fetch(
+      "http://localhost:3000/api/widget/62176db319ede44b9682f105",
+      {
+        method: "POST",
+        body: JSON.stringify(this.formState),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+
     this.formElement.remove();
     this.createThankYouElement();
   }
