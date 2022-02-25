@@ -152,9 +152,21 @@ export class ArtemisWidget {
     this.formContainer.appendChild(thankYouParagraph);
   }
 
-  submitForm(event) {
+  async submitForm(event) {
     event.preventDefault();
-    console.log(this.formState);
+    const response = await fetch(
+      "http://localhost:3000/api/widget/62176db319ede44b9682f105",
+      {
+        method: "POST",
+        body: JSON.stringify(this.formState),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      }
+    );
+    const json = await response.json();
+    console.log(json);
+
     this.formElement.remove();
     this.createThankYouElement();
   }
