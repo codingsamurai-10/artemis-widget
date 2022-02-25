@@ -270,6 +270,7 @@ export class ArtemisWidget {
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow-y: auto;
       }
 
       .artemis-widget-form-container button {
@@ -285,15 +286,19 @@ export class ArtemisWidget {
       .artemis-widget-form-element {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        font-size: 1.1rem;
+      }
+
+      .artemis-widget-form-element input {
+        padding: 0.5em 1em;
+        margin-top: 1em;
+        font-size: 1.3rem;
       }
 
       .artemis-widget-question-container {
+        padding: 1rem 0;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column; 
       }
 
       .artemis-widget-video-element {
