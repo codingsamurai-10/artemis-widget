@@ -62,21 +62,21 @@ export class ArtemisWidget {
   }
 
   renderQuestion(question) {
-    const questionsContainer = document.createElement("div");
-    questionsContainer.classList.add("artemis-widget-question-container");
+    const questionContainer = document.createElement("div");
+    questionContainer.classList.add("artemis-widget-question-container");
 
     const videoElement = document.createElement("video");
     videoElement.src = question.src;
     videoElement.setAttribute("autoplay", " ");
     videoElement.classList.add("artemis-widget-video-element");
-    questionsContainer.appendChild(videoElement);
+    questionContainer.appendChild(videoElement);
 
     switch (question.type) {
       case "text":
         const textLabel = document.createElement("label");
         textLabel.setAttribute("for", question.label);
         textLabel.innerText = question.caption;
-        questionsContainer.appendChild(textLabel);
+        questionContainer.appendChild(textLabel);
 
         const textInput = document.createElement("input");
         textInput.type = "text";
@@ -84,13 +84,13 @@ export class ArtemisWidget {
         textInput.onchange = (e) => {
           this.changeFormState(e);
         };
-        questionsContainer.appendChild(textInput);
+        questionContainer.appendChild(textInput);
         break;
 
       case "radio":
         const radioText = document.createElement("p");
         radioText.innerText = question.caption;
-        questionsContainer.appendChild(radioText);
+        questionContainer.appendChild(radioText);
 
         for (let radioOption of question.options) {
           const radioInput = document.createElement("input");
@@ -105,8 +105,8 @@ export class ArtemisWidget {
           radioLabel.setAttribute("for", radioOption);
           radioLabel.innerText = radioOption;
 
-          questionsContainer.appendChild(radioLabel);
-          questionsContainer.appendChild(radioInput);
+          questionContainer.appendChild(radioLabel);
+          questionContainer.appendChild(radioInput);
         }
         break;
 
@@ -114,8 +114,8 @@ export class ArtemisWidget {
         break;
     }
 
-    this.formElement.appendChild(questionsContainer);
-    return questionsContainer;
+    this.formElement.appendChild(questionContainer);
+    return questionContainer;
   }
 
   *getQuestionNumber() {
@@ -225,6 +225,10 @@ export class ArtemisWidget {
       }
 
       .artemis-widget-toggle-chat-button {
+        cursor: pointer;
+        position: relative;
+        margin-top: auto;
+        margin-left: auto;
         width: 5vw;
         max-width: 50px;
         height: 5vw;
@@ -235,8 +239,12 @@ export class ArtemisWidget {
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 10px 0 rgb(219 219 219 / 75%), 0 2px 10px 0 rgb(173 158 158);
+        border: 1px solid black;
         z-index: 1;
+      }
+
+      .artemis-widget-toggle-chat-button:hover {
+        box-shadow: 0 0 10px 0 rgb(219 219 219 / 75%), 0 2px 10px 0 rgb(173 158 158);
       }
 
       .artemis-widget-toggle-chat-image {
@@ -248,7 +256,27 @@ export class ArtemisWidget {
         overflow-y: auto;
       }
 
-      .artemis-widget-form-container { }
+      .artemis-widget-form-container {
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgb(163 163 163), 0 2px 10px 0 rgb(70 70 70);
+        height: 500px;
+        width: 500px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        animation: animateBoxShadow 5s infinite forwards;
+      }
+
+      @keyframes animateBoxShadow {
+        0% {box-shadow: 0 10px 30px #9ADCFF;}
+        20% {box-shadow: 0 10px 30px #79B4B7;}
+        40% {box-shadow: 0 10px 30px #FFB2A6;}
+        60% {box-shadow: 0 10px 30px #C6D57E;}
+        80% {box-shadow: 0 10px 30px #FF8AAE;}
+      }
 
       .artemis-widget-form-container button {
         padding: 1rem 3rem;
@@ -257,6 +285,7 @@ export class ArtemisWidget {
         border-radius: 10px;
         color: white;
         border: none;
+        cursor: pointer;
       }
 
       .artemis-widget-video-element {
