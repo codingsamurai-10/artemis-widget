@@ -93,6 +93,8 @@ export class ArtemisWidget {
         questionContainer.appendChild(radioText);
 
         for (let radioOption of question.options) {
+          const radioContainer = document.createElement("div");
+
           const radioInput = document.createElement("input");
           radioInput.type = "radio";
           radioInput.name = question.label;
@@ -105,8 +107,10 @@ export class ArtemisWidget {
           radioLabel.setAttribute("for", radioOption);
           radioLabel.innerText = radioOption;
 
-          questionContainer.appendChild(radioLabel);
-          questionContainer.appendChild(radioInput);
+          radioContainer.appendChild(radioInput);
+          radioContainer.appendChild(radioLabel);
+
+          questionContainer.appendChild(radioContainer);
         }
         break;
 
@@ -114,7 +118,7 @@ export class ArtemisWidget {
         break;
     }
 
-    this.formElement.appendChild(questionContainer);
+    this.formElement.prepend(questionContainer);
     return questionContainer;
   }
 
@@ -264,18 +268,8 @@ export class ArtemisWidget {
         padding: 1rem;
         margin-bottom: 1rem;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        animation: animateBoxShadow 5s infinite forwards;
-      }
-
-      @keyframes animateBoxShadow {
-        0% {box-shadow: 0 10px 30px #9ADCFF;}
-        20% {box-shadow: 0 10px 30px #79B4B7;}
-        40% {box-shadow: 0 10px 30px #FFB2A6;}
-        60% {box-shadow: 0 10px 30px #C6D57E;}
-        80% {box-shadow: 0 10px 30px #FF8AAE;}
       }
 
       .artemis-widget-form-container button {
@@ -288,8 +282,22 @@ export class ArtemisWidget {
         cursor: pointer;
       }
 
+      .artemis-widget-form-element {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .artemis-widget-question-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+      }
+
       .artemis-widget-video-element {
-        width: 300px;
+        width: 100%;
       }
     `;
     document.head.appendChild(styleTag);
