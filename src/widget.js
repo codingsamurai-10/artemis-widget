@@ -4,6 +4,7 @@ export class ArtemisWidget {
     this.formState = {};
 
     this.applyStyles();
+    this.createWidgetContainer();
     this.createToggleChatButton();
   }
 
@@ -28,24 +29,31 @@ export class ArtemisWidget {
     }
   }
 
+  createWidgetContainer() {
+    // widget container
+    const artemisWidgetContainer = document.createElement("div");
+    this.artemisWidgetContainer = artemisWidgetContainer;
+    artemisWidgetContainer.classList.add("artemis-widget-container");
+    document.body.appendChild(artemisWidgetContainer);
+  }
+
   createToggleChatButton() {
     // chat open button
     const toggleChatButton = document.createElement("div");
     this.toggleChatButton = toggleChatButton;
-    toggleChatButton.classList.add("artemis-widget-bottom-right-button");
+    toggleChatButton.classList.add("artemis-widget-toggle-chat-button");
     toggleChatButton.onclick = () => {
       this.handleToggleChatButtonClick();
     };
+    this.artemisWidgetContainer.appendChild(toggleChatButton);
 
     // chat image in chat open button
     const toggleChatImage = document.createElement("img");
     toggleChatImage.src = this.isFormOpen
       ? "https://img.icons8.com/ios/50/000000/delete-sign--v1.png"
       : "https://img.icons8.com/ios/50/000000/chat--v1.png";
-    toggleChatImage.classList.add("artemis-widget-bottom-right-image");
+    toggleChatImage.classList.add("artemis-widget-toggle-chat-image");
     toggleChatButton.appendChild(toggleChatImage);
-
-    document.body.appendChild(toggleChatButton);
   }
 
   changeFormState(event) {
@@ -160,8 +168,8 @@ export class ArtemisWidget {
         method: "POST",
         body: JSON.stringify(this.formState),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+          "Content-type": "application/json; charset=UTF-8",
+        },
       }
     );
     const json = await response.json();
@@ -174,6 +182,8 @@ export class ArtemisWidget {
   createFormElement() {
     const formContainer = document.createElement("div");
     this.formContainer = formContainer;
+    formContainer.classList.add("artemis-widget-form-container");
+    this.artemisWidgetContainer.appendChild(formContainer);
 
     // form element
     const formElement = document.createElement("form");
@@ -182,7 +192,7 @@ export class ArtemisWidget {
     formElement.onsubmit = (e) => {
       this.submitForm(e);
     };
-    formElement.classList.add("artemis-widget-form-container");
+    formElement.classList.add("artemis-widget-form-element");
     formContainer.appendChild(formElement);
 
     // question number generator
@@ -196,30 +206,40 @@ export class ArtemisWidget {
       this.handleProceedClick(proceedButton, questionNumberGenerator);
     };
     formElement.appendChild(proceedButton);
-
-    document.body.appendChild(formContainer);
   }
 
   applyStyles() {
     const styleTag = document.createElement("style");
     styleTag.innerHTML = `
-      .artemis-widget-bottom-right-button {
+      :root {
+        --blue: #4285F4;
+        --yellow: #FBBC05;
+        --green: #34A853;
+        --red: #EA4335;
+      }
+
+      .artemis-widget-container {
         position: fixed;
-        right: 1vw;
-        bottom: 1vw;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .artemis-widget-toggle-chat-button {
         width: 5vw;
+        max-width: 50px;
         height: 5vw;
+        max-height: 50px;
         padding: 1rem;
         border-radius: 50%;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
         box-shadow: 0 0 10px 0 rgb(219 219 219 / 75%), 0 2px 10px 0 rgb(173 158 158);
+        z-index: 1;
       }
 
-      .artemis-widget-bottom-right-image {
+      .artemis-widget-toggle-chat-image {
         width: 90%;
       }
 
@@ -228,8 +248,15 @@ export class ArtemisWidget {
         overflow-y: auto;
       }
 
-      .hidden {
-        display: none;
+      .artemis-widget-form-container { }
+
+      .artemis-widget-form-container button {
+        padding: 1rem 3rem;
+        font-size: 1.3rem;
+        background: var(--blue);
+        border-radius: 10px;
+        color: white;
+        border: none;
       }
 
       .artemis-widget-video-element {
