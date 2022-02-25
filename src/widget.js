@@ -183,7 +183,7 @@ export class ArtemisWidget {
     const formContainer = document.createElement("div");
     this.formContainer = formContainer;
     formContainer.classList.add("artemis-widget-form-container");
-    this.artemisWidgetContainer.appendChild(formContainer);
+    this.artemisWidgetContainer.prepend(formContainer);
 
     // form element
     const formElement = document.createElement("form");
