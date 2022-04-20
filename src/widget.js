@@ -10,7 +10,7 @@ export class ArtemisWidget {
 
   async getFormData() {
     const response = await fetch(
-      "http://localhost:3000/api/widget/62176db319ede44b9682f105"
+      "http://localhost:3000/api/chatbot/use/625ffc17561bad6f100f1d03/62600a2f8f8585c73615a11f"
     );
     const json = await response.json();
     return json;
@@ -74,13 +74,13 @@ export class ArtemisWidget {
     switch (question.type) {
       case "text":
         const textLabel = document.createElement("label");
-        textLabel.setAttribute("for", question.label);
-        textLabel.innerText = question.caption;
+        textLabel.setAttribute("for", question.name);
+        textLabel.innerText = question.label;
         questionContainer.appendChild(textLabel);
 
         const textInput = document.createElement("input");
         textInput.type = "text";
-        textInput.name = question.label;
+        textInput.name = question.name;
         textInput.onchange = (e) => {
           this.changeFormState(e);
         };
@@ -89,7 +89,7 @@ export class ArtemisWidget {
 
       case "radio":
         const radioText = document.createElement("p");
-        radioText.innerText = question.caption;
+        radioText.innerText = question.label;
         questionContainer.appendChild(radioText);
 
         for (let radioOption of question.options) {
@@ -97,7 +97,7 @@ export class ArtemisWidget {
 
           const radioInput = document.createElement("input");
           radioInput.type = "radio";
-          radioInput.name = question.label;
+          radioInput.name = question.name;
           radioInput.value = radioOption;
           radioInput.onchange = (e) => {
             this.changeFormState(e);
