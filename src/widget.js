@@ -66,16 +66,16 @@ export class ArtemisWidget {
     questionContainer.classList.add("artemis-widget-question-container");
 
     const videoElement = document.createElement("video");
-    videoElement.src = question.src;
+    videoElement.src = question.videoLink;
     videoElement.setAttribute("autoplay", " ");
     videoElement.classList.add("artemis-widget-video-element");
     questionContainer.appendChild(videoElement);
 
-    switch (question.type) {
-      case "text":
+    switch (question.options.length) {
+      case 0:
         const textLabel = document.createElement("label");
         textLabel.setAttribute("for", question.name);
-        textLabel.innerText = question.label;
+        textLabel.innerText = question.text;
         questionContainer.appendChild(textLabel);
 
         const textInput = document.createElement("input");
@@ -87,9 +87,9 @@ export class ArtemisWidget {
         questionContainer.appendChild(textInput);
         break;
 
-      case "radio":
+      default:
         const radioText = document.createElement("p");
-        radioText.innerText = question.label;
+        radioText.innerText = question.text;
         questionContainer.appendChild(radioText);
 
         for (let radioOption of question.options) {
@@ -112,9 +112,6 @@ export class ArtemisWidget {
 
           questionContainer.appendChild(radioContainer);
         }
-        break;
-
-      default:
         break;
     }
 
@@ -167,7 +164,7 @@ export class ArtemisWidget {
   async submitForm(event) {
     event.preventDefault();
     const response = await fetch(
-      "http://localhost:3000/api/widget/62176db319ede44b9682f105",
+      "http://localhost:3000/api/chatbot/answer/62600a2f8f8585c73615a11f",
       {
         method: "POST",
         body: JSON.stringify(this.formState),
