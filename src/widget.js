@@ -6,11 +6,14 @@ export class ArtemisWidget {
     this.applyStyles();
     this.createWidgetContainer();
     this.createToggleChatButton();
+
+    this.userId = '6261449498cc92aac862bbc7';
+    this.chatbotId = '6261449998cc92aac862bbd3';
   }
 
   async getFormData() {
     const response = await fetch(
-      "http://localhost:3000/api/chatbot/use/625ffc17561bad6f100f1d03/62600a2f8f8585c73615a11f"
+      `http://localhost:3000/api/chatbot/use/${this.userId}/${this.chatbotId}`
     );
     const json = await response.json();
     return json;
@@ -98,14 +101,14 @@ export class ArtemisWidget {
           const radioInput = document.createElement("input");
           radioInput.type = "radio";
           radioInput.name = question.name;
-          radioInput.value = radioOption;
+          radioInput.value = radioOption.text;
           radioInput.onchange = (e) => {
             this.changeFormState(e);
           };
 
           const radioLabel = document.createElement("label");
-          radioLabel.setAttribute("for", radioOption);
-          radioLabel.innerText = radioOption;
+          radioLabel.setAttribute("for", radioOption.text);
+          radioLabel.innerText = radioOption.text;
 
           radioContainer.appendChild(radioInput);
           radioContainer.appendChild(radioLabel);
@@ -164,7 +167,7 @@ export class ArtemisWidget {
   async submitForm(event) {
     event.preventDefault();
     const response = await fetch(
-      "http://localhost:3000/api/chatbot/answer/62600a2f8f8585c73615a11f",
+      `http://localhost:3000/api/chatbot/answer/${this.chatbotId}`,
       {
         method: "POST",
         body: JSON.stringify(this.formState),
