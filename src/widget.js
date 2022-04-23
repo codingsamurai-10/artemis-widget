@@ -51,13 +51,27 @@ export class ArtemisWidget {
     };
     this.artemisWidgetContainer.appendChild(toggleChatButton);
 
-    // chat image in chat open button
-    const toggleChatImage = document.createElement("img");
-    toggleChatImage.src = this.isFormOpen
-      ? "https://img.icons8.com/ios/50/000000/delete-sign--v1.png"
-      : "https://img.icons8.com/ios/50/000000/chat--v1.png";
-    toggleChatImage.classList.add("artemis-widget-toggle-chat-image");
-    toggleChatButton.appendChild(toggleChatImage);
+    // base video
+    const openChatbotDiv = document.createElement("div");
+
+    const chatbotBaseVideo = document.createElement("video");
+    chatbotBaseVideo.src =
+      "https://buildarassets.s3.amazonaws.com/1650618797.0980403.mp4";
+    chatbotBaseVideo.autoplay = true;
+    chatbotBaseVideo.muted = true;
+    chatbotBaseVideo.loop = true;
+    openChatbotDiv.appendChild(chatbotBaseVideo);
+
+    // close chatbot image
+    const closeChatbotImage = document.createElement("img");
+    closeChatbotImage.src =
+      "https://img.icons8.com/ios/50/000000/delete-sign--v1.png";
+    closeChatbotImage.classList.add("artemis-widget-toggle-chat-image");
+
+    // add UI to close/open depending on current state
+    this.isFormOpen
+      ? toggleChatButton.appendChild(closeChatbotImage)
+      : toggleChatButton.appendChild(openChatbotDiv);
   }
 
   changeFormState(event) {
