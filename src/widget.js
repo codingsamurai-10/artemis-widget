@@ -1,5 +1,5 @@
 export class ArtemisWidget {
-  constructor() {
+  constructor(userId, chatbotId, tagline) {
     this.isFormOpen = false;
     this.formState = {};
 
@@ -7,8 +7,9 @@ export class ArtemisWidget {
     this.createWidgetContainer();
     this.createToggleChatButton();
 
-    this.userId = '6261449498cc92aac862bbc7';
-    this.chatbotId = '6261449998cc92aac862bbd3';
+    this.userId = userId;
+    this.chatbotId = chatbotId;
+    this.tagline = tagline;
   }
 
   async getFormData() {
