@@ -62,6 +62,10 @@ export class ArtemisWidget {
     chatbotBaseVideo.loop = true;
     openChatbotDiv.appendChild(chatbotBaseVideo);
 
+    const taglineText = document.createElement("p");
+    taglineText.innerText = this.tagline;
+    openChatbotDiv.appendChild(taglineText);
+
     // close chatbot image
     const closeChatbotImage = document.createElement("img");
     closeChatbotImage.src =
